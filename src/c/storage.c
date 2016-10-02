@@ -4,7 +4,7 @@
 #define USER_CHARACTER 0
 #define STEPS_CHARACTER 1
 #define LEVEL_CHARACTER 2
-#define PLAYER_STEPS_TODAY 3
+#define PLAYER_STEPS_TODAY_LAST 3
 #define PLAYER_STEPS_BEST 4
 
 void loadCharacter(){
@@ -46,14 +46,14 @@ void loadCharacterLevel(){
   }
 }
 
-void loadPlayerToday(){
-  if (persist_exists(PLAYER_STEPS_TODAY)) {
-    player.steps_today = persist_read_int(PLAYER_STEPS_TODAY);
-    APP_LOG(APP_LOG_LEVEL_INFO, "Loaded player steps for today %d", player.steps_today);
+void loadPlayerTodayLast(){
+  if (persist_exists(PLAYER_STEPS_TODAY_LAST)) {
+    player.steps_today_last = persist_read_int(PLAYER_STEPS_TODAY_LAST);
+    APP_LOG(APP_LOG_LEVEL_INFO, "Loaded player steps for today %d", player.steps_today_last);
 
   } else {
-    player.steps_today = 0;
-    persist_write_int(PLAYER_STEPS_TODAY, 1);
+    player.steps_today_last = 0;
+    persist_write_int(PLAYER_STEPS_TODAY_LAST, 0);
     APP_LOG(APP_LOG_LEVEL_ERROR, "Failed to load steps");
 
   }
@@ -66,7 +66,7 @@ void loadPlayerBest(){
 
   } else {
     player.steps_best = 0;
-    persist_write_int(PLAYER_STEPS_BEST, 1);
+    persist_write_int(PLAYER_STEPS_BEST, 0);
     APP_LOG(APP_LOG_LEVEL_ERROR, "Failed to load best");
 
   }
@@ -76,7 +76,7 @@ void loadStorage(){
   loadCharacter(); 
   loadCharacterSteps();
   loadCharacterLevel();
-  loadPlayerToday();
+  loadPlayerTodayLast();
   loadPlayerBest();
 }
 
@@ -87,7 +87,7 @@ void saveCharacter(){
 }
 
 void savePlayer(){
-  persist_write_int(PLAYER_STEPS_TODAY, player.steps_today);
+  persist_write_int(PLAYER_STEPS_TODAY_LAST, player.steps_today_last);
   persist_write_int(PLAYER_STEPS_BEST, player.steps_best);
 }
 
