@@ -1,7 +1,8 @@
 #include <pebble.h>
 #include "steps.h"
+#include "storage.h"
 
-void getNumAtOpenSteps(){
+void getNumStepsAtOpen(){
   HealthMetric metric = HealthMetricStepCount;
   time_t start = time_start_of_today();
   time_t end = time(NULL);
@@ -12,9 +13,16 @@ void getNumAtOpenSteps(){
   if(mask & HealthServiceAccessibilityMaskAvailable) {
     // Data is available!
     APP_LOG(APP_LOG_LEVEL_INFO, "Steps today: %d", (int)health_service_sum_today(metric));
+    stepsToday = (int)health_service_sum_today(metric);
+    newSteps = stepsToday - player.steps_today_last;
+    character.steps += newSteps;
+    player.steps_today_last = stepsToday;
+    APP_LOG(APP_LOG_LEVEL_INFO, "The player has done %d steps since last using the app", newSteps);
   } else {
     // No data recorded yet today
     APP_LOG(APP_LOG_LEVEL_ERROR, "Data unavailable!");
+    stepsToday = 0;
+    player.steps_today_last = 0;
   }
 }
 
