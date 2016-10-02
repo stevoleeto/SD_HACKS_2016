@@ -132,60 +132,46 @@ struct Pebblim* createPebblim(int x, int y) {
 };
 
 void updatePebblim() {
-  struct Sprite *sp;
-  struct Sprite *psp;
-  int spr, pspr;
+  struct Sprite *sp[5];
+  int spr[5];
   //TODO holy crap this is going to be a lot of code
   if (pebblim != 0) {
   
   APP_LOG(APP_LOG_LEVEL_INFO, "Animation update");  
-    spr = pebblim->body->sprite;
-    sp = sprites[spr];
-    pspr = pebblim->extra[0]->sprite;
-    psp = sprites[pspr];
+    spr[1] = pebblim->body->sprite;
+    sp[1] = sprites[spr[1]];
+    spr[4] = pebblim->eyeleft->sprite;
+    sp[4] = sprites[spr[4]];
+    spr[2] = pebblim->eyeright->sprite;
+    sp[2] = sprites[spr[2]];
+    spr[3] = pebblim->mouth->sprite;
+    sp[3] = sprites[spr[3]];
+    spr[0] = pebblim->extra[0]->sprite;
+    sp[0] = sprites[spr[0]];
     
-    if (sp->frame < 6){
-      sp->vspeed = -1.0;
-      sp->frame += 1;
-      psp->vspeed = 0.5;
+    if (sp[1]->frame < 6){
+      sp[1]->vspeed = -1.0;
+      sp[1]->frame += 1;
+      for (int i = 2; i < 5; i++) {
+        sp[i]->vspeed = -0.75;
+      }
+      sp[0]->vspeed = 0.5;
       
-    } else if (sp->frame < 11) {
-      sp->vspeed = 1.0;
-      sp->frame += 1;
-      psp->vspeed = -0.5;
+    } else if (sp[1]->frame < 11) {
+      sp[1]->vspeed = 1.0;
+      sp[1]->frame += 1;
+      for (int i = 2; i < 5; i++) {
+        sp[i]->vspeed = 0.75;
+      }
+      sp[0]->vspeed = -0.5;
     } else {
-      sp->frame = 0;
+      sp[1]->frame = 0;
     }
-    updateSprite(spr);
-    drawSprite(spr, s_window);
-    updateSprite(pspr);
-    drawSprite(pspr, s_window);
     
-    
-    pspr = pebblim->body->sprite;
-    psp = sprites[pspr];
-    spr = pebblim->eyeleft->sprite;
-    sp = sprites[spr];
-    sp->x = psp->x+pebblim->eyeleft->xdist;
-    sp->y = psp->y+pebblim->eyeleft->ydist;
-    updateSprite(spr);
-    drawSprite(spr,s_window);
-    
-    spr = pebblim->eyeright->sprite;
-    sp = sprites[spr];
-    sp->x = psp->x+pebblim->eyeright->xdist;
-    sp->y = psp->y+pebblim->eyeright->ydist;
-    updateSprite(spr);
-    drawSprite(spr,s_window);
-    
-    spr = pebblim->mouth->sprite;
-    sp = sprites[spr];
-    sp->x = psp->x+pebblim->mouth->xdist;
-    sp->y = psp->y+pebblim->mouth->ydist;
-    updateSprite(spr);
-    drawSprite(spr,s_window);
-    
-    
+    for (int j = 0; j<5; j++) {
+      updateSprite(spr[j]);
+      drawSprite(spr[j], s_window);
+    }
   } 
   
   app_timer_register(100, updatePebblim, NULL);
