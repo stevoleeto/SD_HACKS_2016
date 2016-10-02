@@ -1,0 +1,24 @@
+{
+    "author": "sgilardi8@hotmail.com",
+    "dependencies": {},
+    "keywords": [],
+    "name": "sd_hacks_2016",
+    "pebble": {
+        "displayName": "sd_hacks_2016",
+        "enableMultiJS": true,
+        "messageKeys": [],
+        "projectType": "native",
+        "resources": {
+            "media": []
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "basalt"
+        ],
+        "uuid": "52a23e4f-6aa3-40ef-9c59-fc6099a01213",
+        "watchapp": {
+            "watchface": false
+        }
+    },
+    "version": "1.0.0"
+}
