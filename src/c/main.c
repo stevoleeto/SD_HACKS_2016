@@ -1,5 +1,6 @@
 #include <pebble.h>
 #include "steps.h"
+#include "storage.h"
 #include "home.h"
 
 // static Window * s_main_window;
@@ -40,14 +41,16 @@
 // }
 
 void handle_init(void) {
-	APP_LOG(APP_LOG_LEVEL_INFO, "Starting App");
-  getNumAtOpenSteps();
+  APP_LOG(APP_LOG_LEVEL_INFO, "Starting App");
+  loadStorage();
+  getNumStepsAtOpen();
   show_home();
 }
 
 void handle_deinit(void) {
   hide_home();
   APP_LOG(APP_LOG_LEVEL_INFO, "Stopping App");
+  saveStorage();
 }
 
 int main(void) {
