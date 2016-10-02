@@ -3,10 +3,14 @@
 #include "storage.h"
 #include "home.h"
 
+#define LEVEL_GOAL 100
+
 
 void health_handler(HealthEventType event, void *context) {
   updateSteps();
   updateNumSteps();
+//   updateExpBarProgress((int) ((getTotalUserSteps() / LEVEL_GOAL) * 100) % 100);
+  updateExpBarProgress(getTotalUserSteps() % 100);
 }
 
 void handle_init(void) {

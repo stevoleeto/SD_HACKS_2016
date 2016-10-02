@@ -35,3 +35,11 @@ void updateSteps(){
   player.steps_today_last = stepsToday;
   APP_LOG(APP_LOG_LEVEL_INFO, "The player walked %d steps while playing the app", newSteps);
 }
+
+int getTotalUserSteps() {
+  return character.steps;
+}
+
+int getCharacterLevel() {
+  return character.level;
+}

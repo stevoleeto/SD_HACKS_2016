@@ -1,6 +1,7 @@
 #include <pebble.h>
 #include "steps.h"
 #include "home.h"
+#include "exp_bar.h"
 
 // BEGIN AUTO-GENERATED UI CODE; DO NOT MODIFY
 static Window * s_window;
@@ -11,9 +12,7 @@ static TextLayer * steps_walked_layer;
 static BitmapLayer * pebblim_layer;
 static Layer * menu_layer;
 static TextLayer * menu_text_layer;
-// static Layer * exp_bar_background;
-// static Layer * exp_bar_forefround;
-static StatusBarLayer * exp_bar;
+static ExpBar * exp_bar;
 
 char * iToA(int num) {
   static char buff[20] = {};
@@ -46,6 +45,16 @@ void updateNumSteps() {
   text_layer_set_text(steps_walked_layer, strcat(iToA(stepsToday), " steps"));
 }
 
+void updateExpBarProgress(int newPercent) {
+  if(newPercent < 0 || newPercent > 100) return;
+  exp_bar_set_progress(exp_bar, newPercent);
+}
+
+void updateLevel() {
+  int level = getCharacterLevel();
+  text_layer_set_text(menu_text_layer, strcat("Pebblim - lvl. ", iToA(level)));
+}
+
 static void initialise_ui(void) {
   s_window = window_create();
   window_set_background_color(s_window, PBL_IF_COLOR_ELSE(GColorFolly, GColorWhite));
@@ -71,12 +80,13 @@ static void initialise_ui(void) {
   pebblim_layer = bitmap_layer_create(GRect(0, 24, 144, 120));
   layer_add_child(window_get_root_layer(s_window), (Layer *) pebblim_layer);
   
-  // exp_bar_background
-//   exp_bar = status_bar_layer_create();
-//   GRect exp_bar_frame = GRect(20, 129, 144, 120);
-//   layer_set_frame(status_bar_layer_get_layer(exp_bar), exp_bar_frame);
-//   status_bar_layer_set_colors(exp_bar, GColorDarkCandyAppleRed, GColorCobaltBlue);
-//   layer_add_child(window_get_root_layer(s_window), (Layer *) exp_bar);
+  // exp_bar
+  exp_bar = exp_bar_create(GRect(20, 134, 104, 5));
+  
+  exp_bar_set_corner_radius(exp_bar, 2);
+  exp_bar_set_foreground_color(exp_bar, GColorDarkCandyAppleRed);
+  exp_bar_set_background_color(exp_bar, GColorCobaltBlue);
+  layer_add_child(window_get_root_layer(s_window), (Layer *) exp_bar);
   
   // menu_layer
   menu_layer = layer_create(GRect(0, 144, 144, 24));
@@ -84,7 +94,7 @@ static void initialise_ui(void) {
   
   // menu_text_layer
   menu_text_layer = text_layer_create(GRect(0, 0, 144, 24));
-  text_layer_set_text(menu_text_layer, "Home");
+  updateLevel();
   text_layer_set_text_alignment(menu_text_layer, GTextAlignmentCenter);
   text_layer_set_font(steps_walked_layer, s_res_roboto_condensed_21);
   layer_add_child(menu_layer, (Layer *) menu_text_layer);
