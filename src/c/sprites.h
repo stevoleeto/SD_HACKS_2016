@@ -4,16 +4,16 @@
 #define MAX_SPRITES 32
 
 struct Part {
-  
+
   struct Part* parent;
   int sprite;
   char xdist;
   char ydist;
-  
+
 };
 
 struct Pebblim {
-  
+
   struct Part* body;
   struct Part* eyeleft;
   struct Part* eyeright;
@@ -22,11 +22,11 @@ struct Pebblim {
   struct Part* legleft;
   struct Part* legright;
   struct Part* extra[5];
-  
+
 };
 
 struct Sprite {
-  
+
   char x;
   char y;
   char width;
@@ -39,7 +39,7 @@ struct Sprite {
   bool visible;
   BitmapLayer* layer;
   GBitmap *imageIndex;
-  
+
 };
 
 struct Sprite* sprites[MAX_SPRITES];
