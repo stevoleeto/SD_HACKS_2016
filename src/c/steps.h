@@ -1,3 +1,4 @@
 #pragma once
-
-void getNumAtOpenSteps();
+int stepsToday;
+void getNumStepsAtOpen();
+void updateSteps();
