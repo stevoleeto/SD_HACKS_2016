@@ -7,10 +7,15 @@
 
 
 void health_handler(HealthEventType event, void *context) {
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Handling step change!");
   updateSteps();
   updateNumSteps();
 //   updateExpBarProgress((int) ((getTotalUserSteps() / LEVEL_GOAL) * 100) % 100);
   updateExpBarProgress(getTotalUserSteps() % 100);
+  if((getTotalUserSteps() / LEVEL_GOAL) >  character.level) {
+    character.level = getTotalUserSteps() / LEVEL_GOAL;
+    updateLevelInt(character.level);
+  }
 }
 
 void handle_init(void) {

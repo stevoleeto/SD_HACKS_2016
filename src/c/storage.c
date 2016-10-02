@@ -1,5 +1,6 @@
 #include <pebble.h>
 #include "storage.h"
+#include "home.h"
 
 #define USER_CHARACTER 0
 #define STEPS_CHARACTER 1
@@ -36,6 +37,11 @@ void loadCharacterSteps(){
 void loadCharacterLevel(){
   if (persist_exists(LEVEL_CHARACTER)) {
     character.level = persist_read_int(LEVEL_CHARACTER);
+    
+    if((character.steps / 100) >  character.level) {
+      character.level = character.steps / 100;
+      updateLevelInt(character.level);
+    }
     APP_LOG(APP_LOG_LEVEL_INFO, "Loaded user level %d", character.level);
 
   } else {

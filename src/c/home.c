@@ -14,7 +14,11 @@ static Layer * menu_layer;
 static TextLayer * menu_text_layer;
 static ExpBar * exp_bar;
 
+char updateStepsBuffer[32];
+char updateLevelBuffer[32];
+
 char * iToA(int num) {
+  if(num == 0) return "0";
   static char buff[20] = {};
   int i = 0, temp_num = num, length = 0;
   char *string = buff;
@@ -42,7 +46,8 @@ char * iToA(int num) {
 }
 
 void updateNumSteps() {
-  text_layer_set_text(steps_walked_layer, strcat(iToA(stepsToday), " steps"));
+  snprintf(updateStepsBuffer, 32, "%d steps", getTotalUserSteps());
+  text_layer_set_text(steps_walked_layer, updateStepsBuffer);
 }
 
 void updateExpBarProgress(int newPercent) {
@@ -50,63 +55,67 @@ void updateExpBarProgress(int newPercent) {
   exp_bar_set_progress(exp_bar, newPercent);
 }
 
+void updateLevelInt(int newLevel) {
+  text_layer_set_text(menu_text_layer, strcat(iToA(newLevel), " - Pebblim"));
+}
+
 void updateLevel() {
-  int level = getCharacterLevel();
-  text_layer_set_text(menu_text_layer, strcat("Pebblim - lvl. ", iToA(level)));
+  snprintf(updateLevelBuffer, 32, "Pebblim - %d", getCharacterLevel());
+  text_layer_set_text(menu_text_layer, updateLevelBuffer);
 }
 
 static void initialise_ui(void) {
   s_window = window_create();
-  window_set_background_color(s_window, PBL_IF_COLOR_ELSE(GColorFolly, GColorWhite));
+  window_set_background_color(s_window, PBL_IF_COLOR_ELSE(GColorWhite, GColorWhite));
   #ifndef PBL_SDK_3
     window_set_fullscreen(s_window, true);
   #endif
   
   s_res_roboto_condensed_21 = fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21);
-  s_res_sprite_topaz_eyeleft = gbitmap_create_with_resource(RESOURCE_ID_SPRITE_TOPAZ_EYELEFT);
   
   // main_layer
   main_layer = layer_create(GRect(0, 0, 144, 168));
-  layer_add_child(window_get_root_layer(s_window), (Layer *)main_layer);
+  layer_add_child(window_get_root_layer(s_window), (Layer *) main_layer);
   
   // steps_walked_layer
   steps_walked_layer = text_layer_create(GRect(0, 0, 144, 24));
   updateNumSteps();
   text_layer_set_text_alignment(steps_walked_layer, GTextAlignmentCenter);
   text_layer_set_font(steps_walked_layer, s_res_roboto_condensed_21);
-  layer_add_child(window_get_root_layer(s_window), (Layer *) steps_walked_layer);
+  layer_add_child(main_layer, (Layer *) steps_walked_layer);
   
   // pebblim_layer
   pebblim_layer = bitmap_layer_create(GRect(0, 24, 144, 120));
-  layer_add_child(window_get_root_layer(s_window), (Layer *) pebblim_layer);
+  layer_add_child(main_layer, (Layer *) pebblim_layer);
   
   // exp_bar
   exp_bar = exp_bar_create(GRect(20, 134, 104, 5));
-  
   exp_bar_set_corner_radius(exp_bar, 2);
   exp_bar_set_foreground_color(exp_bar, GColorDarkCandyAppleRed);
   exp_bar_set_background_color(exp_bar, GColorCobaltBlue);
-  layer_add_child(window_get_root_layer(s_window), (Layer *) exp_bar);
+  layer_add_child(main_layer, (Layer *) exp_bar);
   
   // menu_layer
   menu_layer = layer_create(GRect(0, 144, 144, 24));
-  layer_add_child(window_get_root_layer(s_window), (Layer *) menu_layer);
+  layer_add_child(main_layer, (Layer *) menu_layer);
   
   // menu_text_layer
   menu_text_layer = text_layer_create(GRect(0, 0, 144, 24));
+  text_layer_set_text(menu_text_layer, "Plebbim");
   updateLevel();
   text_layer_set_text_alignment(menu_text_layer, GTextAlignmentCenter);
-  text_layer_set_font(steps_walked_layer, s_res_roboto_condensed_21);
+  text_layer_set_font(menu_text_layer, s_res_roboto_condensed_21);
   layer_add_child(menu_layer, (Layer *) menu_text_layer);
 }
 
 static void destroy_ui(void) {
-  window_destroy(s_window);
-  layer_destroy(main_layer);
   text_layer_destroy(steps_walked_layer);
   bitmap_layer_destroy(pebblim_layer);
+  text_layer_destroy(menu_text_layer);
   layer_destroy(menu_layer);
   gbitmap_destroy(s_res_sprite_topaz_eyeleft);
+  layer_destroy(main_layer);
+  window_destroy(s_window);
 }
 // END AUTO-GENERATED UI CODE
 
