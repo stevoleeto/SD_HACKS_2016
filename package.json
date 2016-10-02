@@ -2,9 +2,12 @@
     "author": "sgilardi8@hotmail.com",
     "dependencies": {},
     "keywords": [],
-    "name": "sd_hacks_2016",
+    "name": "pebblim",
     "pebble": {
-        "displayName": "sd_hacks_2016",
+        "capabilities": [
+            "health"
+        ],
+        "displayName": "Pebblim",
         "enableMultiJS": true,
         "messageKeys": [],
         "projectType": "native",
