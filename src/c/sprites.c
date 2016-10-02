@@ -129,8 +129,10 @@ struct Pebblim* createPebblim(int x, int y) {
   return peb;
 };
 
-void updatePebblim(struct Pebblim* peb) {
+void updatePebblim() {
   //TODO holy crap this is going to be a lot of code
+  APP_LOG(APP_LOG_LEVEL_INFO, "Animation update");
+  app_timer_register(500, updatePebblim, NULL);
 };
 void destroyPebblim(struct Pebblim* peb) {
   

@@ -22,6 +22,7 @@ void handle_init(void) {
   if(!health_service_events_subscribe(health_handler, NULL)) {
     APP_LOG(APP_LOG_LEVEL_ERROR, "Health not available!");
   }
+  app_timer_register(500, updatePebblim, NULL);
 }
 
 void handle_deinit(void) {

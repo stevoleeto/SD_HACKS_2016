@@ -52,5 +52,5 @@ void drawSprite(int index, Window* window);
 
 // Pebblim functions
 struct Pebblim* createPebblim(int x, int y);
-void updatePebblim(struct Pebblim* peb);
+void updatePebblim();
 void destroyPebblim(struct Pebblim* peb);
