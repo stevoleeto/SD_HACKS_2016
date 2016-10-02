@@ -48,7 +48,7 @@ void destroySprites();
 int createSprite(int x, int y, int w, int h, uint32_t image);
 void updateSprite(int index);
 void destroySprite(int index);
-void drawSprite(int index, Window* window, Layer* mainLayer);
+void drawSprite(int index, Window* window);
 
 // Pebblim functions
 struct Pebblim* createPebblim(int x, int y);

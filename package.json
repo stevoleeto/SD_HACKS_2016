@@ -14,12 +14,6 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/sprite_topaz_body",
-                    "name": "SPRITE_TOPAZ_BODY",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/sprite_topaz_tail",
                     "name": "SPRITE_TOPAZ_TAIL",
                     "targetPlatforms": [
@@ -89,6 +83,12 @@
                     "targetPlatforms": [
                         "basalt"
                     ],
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/sprite_topaz_body",
+                    "name": "SPRITE_TOPAZ_BODY",
+                    "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {

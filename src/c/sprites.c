@@ -21,6 +21,7 @@ int createSprite(int x, int y, int w, int h, uint32_t image) {
       done = true;
     }
   }
+  index--;
   
   if (!done) {
     return -1;
@@ -58,7 +59,7 @@ void destroySprite(int index) {
   sprites[index] = 0;
 };
 
-void drawSprite(int index, Window* window, Layer* mainLayer) {
+void drawSprite(int index, Window* window) {
   struct Sprite* sp = sprites[index];
   if (sp->visible == true) {
     bitmap_layer_set_compositing_mode(sp->layer,GCompOpSet);
@@ -72,6 +73,7 @@ void drawSprite(int index, Window* window, Layer* mainLayer) {
 
 struct Pebblim* createPebblim(int x, int y) {
   struct Pebblim* peb = malloc(sizeof(struct Pebblim));
+  
   struct Part* pt;
   int xorigin, yorigin;
 //body  
@@ -80,16 +82,16 @@ struct Pebblim* createPebblim(int x, int y) {
   
   pt->parent = 0;
   pt->sprite = createSprite(42,53,58,45,RESOURCE_ID_SPRITE_TOPAZ_BODY);
-  pt->xdist = 0;
-  pt->ydist = 0;
+  pt->xdist = (char)0;
+  pt->ydist = (char)0;
 //left eye
   peb->eyeleft = malloc(sizeof(struct Part));
   pt = peb->eyeleft;
 
-  pt->parent = peb->body;
-  pt->xdist = 1;
-  pt->ydist = 8;
-  xorigin = sprites[pt->parent->sprite]->x+pt->xdist;
+  pt->parent = peb->body;  
+  pt->xdist = (char)1;
+  pt->ydist = (char)8;
+  xorigin = (int)((sprites[(pt->parent)->sprite])->x)+(int)(pt->xdist);
   yorigin = sprites[pt->parent->sprite]->y+pt->ydist;
   pt->sprite = createSprite(xorigin,yorigin,14,13,RESOURCE_ID_SPRITE_TOPAZ_EYELEFT);
 //right eye
@@ -97,8 +99,8 @@ struct Pebblim* createPebblim(int x, int y) {
   pt = peb->eyeright;
   
   pt->parent = peb->body;
-  pt->xdist = 22;
-  pt->ydist = 7;
+  pt->xdist = (char)22;
+  pt->ydist = (char)7;
   xorigin = sprites[pt->parent->sprite]->x+pt->xdist;
   yorigin = sprites[pt->parent->sprite]->y+pt->ydist;
   pt->sprite = createSprite(xorigin,yorigin,14,13,RESOURCE_ID_SPRITE_TOPAZ_EYERIGHT);
@@ -107,18 +109,19 @@ struct Pebblim* createPebblim(int x, int y) {
   pt = peb->mouth;
   
   pt->parent = peb->body;
-  pt->xdist = 13;
-  pt->ydist = 24;
+  pt->xdist = (char)13;
+  pt->ydist = (char)24;
   xorigin = sprites[pt->parent->sprite]->x+pt->xdist;
   yorigin = sprites[pt->parent->sprite]->y+pt->ydist;
   pt->sprite = createSprite(xorigin,yorigin,13,7,RESOURCE_ID_SPRITE_TOPAZ_MOUTH);
+  
 //tail
   peb->extra[0] = malloc(sizeof(struct Part));
   pt = peb->extra[0];
   
   pt->parent = peb->body;
-  pt->xdist = 40;
-  pt->ydist = 40;
+  pt->xdist = (char)40;
+  pt->ydist = (char)40;
   xorigin = sprites[pt->parent->sprite]->x+pt->xdist;
   yorigin = sprites[pt->parent->sprite]->y+pt->ydist;
   pt->sprite = createSprite(xorigin,yorigin,19,15,RESOURCE_ID_SPRITE_TOPAZ_TAIL);

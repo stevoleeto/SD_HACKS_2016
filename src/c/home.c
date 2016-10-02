@@ -1,6 +1,7 @@
 #include <pebble.h>
 #include "steps.h"
 #include "home.h"
+#include "sprites.h"
 
 // BEGIN AUTO-GENERATED UI CODE; DO NOT MODIFY
 static Window * s_window;
@@ -14,6 +15,8 @@ static TextLayer * menu_text_layer;
 // static Layer * exp_bar_background;
 // static Layer * exp_bar_forefround;
 static StatusBarLayer * exp_bar;
+
+struct Pebblim* pebblim;
 
 char * iToA(int num) {
   static char buff[20] = {};
@@ -48,6 +51,10 @@ void updateNumSteps() {
 
 static void initialise_ui(void) {
   s_window = window_create();
+  APP_LOG(APP_LOG_LEVEL_INFO, "Creating pebblim");
+  pebblim = createPebblim(42, 53);
+  APP_LOG(APP_LOG_LEVEL_INFO, "Finished pebblim");
+  
   window_set_background_color(s_window, PBL_IF_COLOR_ELSE(GColorFolly, GColorWhite));
   #ifndef PBL_SDK_3
     window_set_fullscreen(s_window, true);
@@ -68,8 +75,21 @@ static void initialise_ui(void) {
   layer_add_child(window_get_root_layer(s_window), (Layer *) steps_walked_layer);
   
   // pebblim_layer
-  pebblim_layer = bitmap_layer_create(GRect(0, 24, 144, 120));
-  layer_add_child(window_get_root_layer(s_window), (Layer *) pebblim_layer);
+  //pebblim_layer = bitmap_layer_create(GRect(0, 24, 144, 120));
+  //layer_add_child(window_get_root_layer(s_window), (Layer *) pebblim_layer);
+  APP_LOG(APP_LOG_LEVEL_INFO, "updating sprites");
+  for (int i = 0; i < MAX_SPRITES; i++) {
+     if (sprites[i] != 0){
+       APP_LOG(APP_LOG_LEVEL_INFO, "updated sprite %d", i);
+       updateSprite(i);
+       APP_LOG(APP_LOG_LEVEL_INFO, "drawing sprites lelz %d",i);
+       drawSprite(i,s_window);
+       
+     } 
+  
+  }
+  APP_LOG(APP_LOG_LEVEL_INFO, "finished");
+  
   
   // exp_bar_background
 //   exp_bar = status_bar_layer_create();
@@ -101,7 +121,12 @@ static void destroy_ui(void) {
 // END AUTO-GENERATED UI CODE
 
 static void handle_window_unload(Window* window) {
+  APP_LOG(APP_LOG_LEVEL_INFO, "clearing out sprites");
+  for (int i = 0; i < MAX_SPRITES; i++) {
+    destroySprite(i);
+  }
   destroy_ui();
+
 }
 
 void show_home(void) {
