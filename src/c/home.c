@@ -1,44 +1,112 @@
 #include <pebble.h>
-#include "home.h"
 #include "steps.h"
+#include "home.h"
+#include "sprites.h"
 
 // BEGIN AUTO-GENERATED UI CODE; DO NOT MODIFY
-static Window * s_window;
+
 static GFont s_res_roboto_condensed_21;
-static GBitmap * s_res_sprite_topaz_ogt;
+static GBitmap * s_res_sprite_topaz_eyeleft;
 static Layer * main_layer;
 static TextLayer * steps_walked_layer;
 static BitmapLayer * pebblim_layer;
 static Layer * menu_layer;
+static TextLayer * menu_text_layer;
+// static Layer * exp_bar_background;
+// static Layer * exp_bar_forefround;
+static StatusBarLayer * exp_bar;
+
+
+char * iToA(int num) {
+  static char buff[20] = {};
+  int i = 0, temp_num = num, length = 0;
+  char *string = buff;
+  
+  if(num >= 0) { //See NOTE
+    // count how many characters in the number
+    while(temp_num) {
+      temp_num /= 10;
+      length++;
+    }
+    // assign the number to the buffer starting at the end of the 
+    // number and going to the begining since we are doing the
+    // integer to character conversion on the last number in the
+    // sequence
+    for(i = 0; i < length; i++) {
+      buff[(length-1)-i] = '0' + (num % 10);
+      num /= 10;
+    }
+    buff[i] = '\0'; // can't forget the null byte to properly end our string
+  } else {
+    return "Unsupported Number";
+  }
+  
+  return string;
+}
+
+void updateNumSteps() {
+  text_layer_set_text(steps_walked_layer, strcat(iToA(stepsToday), " steps"));
+}
 
 static void initialise_ui(void) {
   s_window = window_create();
+  APP_LOG(APP_LOG_LEVEL_INFO, "Creating pebblim");
+  pebblim = createPebblim(42, 53);
+  APP_LOG(APP_LOG_LEVEL_INFO, "Finished pebblim");
+  
+  window_set_background_color(s_window, PBL_IF_COLOR_ELSE(GColorFolly, GColorWhite));
   #ifndef PBL_SDK_3
     window_set_fullscreen(s_window, true);
   #endif
   
   s_res_roboto_condensed_21 = fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21);
-  s_res_sprite_topaz_ogt = gbitmap_create_with_resource(RESOURCE_ID_SPRITE_TOPAZ_OGT);
-  // main
+  s_res_sprite_topaz_eyeleft = gbitmap_create_with_resource(RESOURCE_ID_SPRITE_TOPAZ_EYELEFT);
+  
+  // main_layer
   main_layer = layer_create(GRect(0, 0, 144, 168));
-  layer_add_child(window_get_root_layer(s_window), (Layer *) main_layer);
+  layer_add_child(window_get_root_layer(s_window), (Layer *)main_layer);
   
   // steps_walked_layer
-  steps_walked_layer = text_layer_create(GRect(0, 20, 144, 30));
-  text_layer_set_background_color(steps_walked_layer, GColorClear);
-  text_layer_set_text(steps_walked_layer, "427 steps");
+  steps_walked_layer = text_layer_create(GRect(0, 0, 144, 24));
+  updateNumSteps();
   text_layer_set_text_alignment(steps_walked_layer, GTextAlignmentCenter);
   text_layer_set_font(steps_walked_layer, s_res_roboto_condensed_21);
-  layer_add_child(window_get_root_layer(s_window), (Layer *)steps_walked_layer);
+  layer_add_child(window_get_root_layer(s_window), (Layer *) steps_walked_layer);
   
   // pebblim_layer
-  pebblim_layer = bitmap_layer_create(GRect(0, 0, 144, 168));
-  bitmap_layer_set_bitmap(pebblim_layer, s_res_sprite_topaz_ogt);
-  layer_add_child(window_get_root_layer(s_window), (Layer *)pebblim_layer);
+  //pebblim_layer = bitmap_layer_create(GRect(0, 24, 144, 120));
+  //layer_add_child(window_get_root_layer(s_window), (Layer *) pebblim_layer);
+  APP_LOG(APP_LOG_LEVEL_INFO, "updating sprites");
+  for (int i = 0; i < MAX_SPRITES; i++) {
+     if (sprites[i] != 0){
+       APP_LOG(APP_LOG_LEVEL_INFO, "updated sprite %d", i);
+       updateSprite(i);
+       APP_LOG(APP_LOG_LEVEL_INFO, "drawing sprites lelz %d",i);
+       drawSprite(i,s_window);
+       
+     } 
+  
+  }
+  APP_LOG(APP_LOG_LEVEL_INFO, "finished");
+  
+  
+  // exp_bar_background
+//   exp_bar = status_bar_layer_create();
+//   GRect exp_bar_frame = GRect(20, 129, 144, 120);
+//   layer_set_frame(status_bar_layer_get_layer(exp_bar), exp_bar_frame);
+//   status_bar_layer_set_colors(exp_bar, GColorDarkCandyAppleRed, GColorCobaltBlue);
+//   layer_add_child(window_get_root_layer(s_window), (Layer *) exp_bar);
   
   // menu_layer
-  menu_layer = layer_create(GRect(0, 148, 144, 20));
-  layer_add_child(window_get_root_layer(s_window), (Layer *)menu_layer);
+  menu_layer = layer_create(GRect(0, 144, 144, 24));
+  layer_add_child(window_get_root_layer(s_window), (Layer *) menu_layer);
+  
+  // menu_text_layer
+  menu_text_layer = text_layer_create(GRect(0, 0, 144, 24));
+  text_layer_set_text(menu_text_layer, "Home");
+  text_layer_set_text_alignment(menu_text_layer, GTextAlignmentCenter);
+  text_layer_set_font(steps_walked_layer, s_res_roboto_condensed_21);
+  layer_add_child(menu_layer, (Layer *) menu_text_layer);
 }
 
 static void destroy_ui(void) {
@@ -47,12 +115,17 @@ static void destroy_ui(void) {
   text_layer_destroy(steps_walked_layer);
   bitmap_layer_destroy(pebblim_layer);
   layer_destroy(menu_layer);
-  gbitmap_destroy(s_res_sprite_topaz_ogt);
+  gbitmap_destroy(s_res_sprite_topaz_eyeleft);
 }
 // END AUTO-GENERATED UI CODE
 
 static void handle_window_unload(Window* window) {
+  APP_LOG(APP_LOG_LEVEL_INFO, "clearing out sprites");
+  for (int i = 0; i < MAX_SPRITES; i++) {
+    destroySprite(i);
+  }
   destroy_ui();
+
 }
 
 void show_home(void) {

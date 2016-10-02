@@ -14,64 +14,8 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/sprite_topaz_mouthchew01",
-                    "name": "SPRITE_TOPAZ_MOUTHCHEW01",
-                    "targetPlatforms": [
-                        "basalt"
-                    ],
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/sprite_topaz_mouthchew00",
-                    "name": "SPRITE_TOPAZ_MOUTHCHEW00",
-                    "targetPlatforms": [
-                        "basalt"
-                    ],
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/sprite_topaz_tail",
                     "name": "SPRITE_TOPAZ_TAIL",
-                    "targetPlatforms": [
-                        "basalt"
-                    ],
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/sprite_topaz_eyeleft",
-                    "name": "SPRITE_TOPAZ_EYELEFT",
-                    "targetPlatforms": [
-                        "basalt"
-                    ],
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/sprite_topaz_eyeright",
-                    "name": "SPRITE_TOPAZ_EYERIGHT",
-                    "targetPlatforms": [
-                        "basalt"
-                    ],
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/sprite_topaz_mouthsurprised",
-                    "name": "SPRITE_TOPAZ_MOUTHSURPRISED",
-                    "targetPlatforms": [
-                        "basalt"
-                    ],
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/sprite_topaz_mouth",
-                    "name": "SPRITE_TOPAZ_MOUTH",
-                    "targetPlatforms": [
-                        "basalt"
-                    ],
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/sprite_bloc_original",
-                    "name": "SPRITE_BLOC_OG",
                     "targetPlatforms": [
                         "basalt"
                     ],
@@ -88,6 +32,68 @@
                 {
                     "file": "images/sprite_topaz_original",
                     "name": "SPRITE_TOPAZ_OG",
+                    "targetPlatforms": [
+                        "basalt"
+                    ],
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/sprite_topaz_mouthsurprised",
+                    "name": "SPRITE_TOPAZ_MOUTHSURPRISED",
+                    "targetPlatforms": [
+                        "basalt"
+                    ],
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/sprite_topaz_mouthchew01",
+                    "name": "SPRITE_TOPAZ_MOUTHCHEW01",
+                    "targetPlatforms": [
+                        "basalt"
+                    ],
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/sprite_topaz_mouthchew00",
+                    "name": "SPRITE_TOPAZ_MOUTHCHEW00",
+                    "targetPlatforms": [
+                        "basalt"
+                    ],
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/sprite_topaz_mouth",
+                    "name": "SPRITE_TOPAZ_MOUTH",
+                    "targetPlatforms": [
+                        "basalt"
+                    ],
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/sprite_topaz_eyeright",
+                    "name": "SPRITE_TOPAZ_EYERIGHT",
+                    "targetPlatforms": [
+                        "basalt"
+                    ],
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/sprite_topaz_eyeleft",
+                    "name": "SPRITE_TOPAZ_EYELEFT",
+                    "targetPlatforms": [
+                        "basalt"
+                    ],
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/sprite_topaz_body",
+                    "name": "SPRITE_TOPAZ_BODY",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/sprite_bloc_original",
+                    "name": "SPRITE_BLOC_OG",
                     "targetPlatforms": [
                         "basalt"
                     ],

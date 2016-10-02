@@ -7,7 +7,7 @@ struct Characters {
 } character;
 
 struct Players{
-  int steps_today;
+  int steps_today_last;
   int steps_best;
 } player;
 
