@@ -3,7 +3,7 @@
 #include "storage.h"
 
 void handle_init(void) {
-	APP_LOG(APP_LOG_LEVEL_INFO, "Starting App");
+  APP_LOG(APP_LOG_LEVEL_INFO, "Starting App");
   loadStorage();
   getNumStepsAtOpen();
 }
